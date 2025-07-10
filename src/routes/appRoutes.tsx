@@ -141,6 +141,8 @@ const AppRoutes = () => {
         <Route path="/periodizacoes/editar-macrociclo/:id" element={<EditarMacrociclo />} />
         <Route path="/periodizacoes/editar-mesociclo/:id" element={<EditarMesociclo />} />
         <Route path="/periodizacoes/editar-microciclo/:id" element={<EditarMicrociclo />} />
+        
+
       </Routes>
     </BrowserRouter>
   );

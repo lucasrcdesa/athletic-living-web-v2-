@@ -1,33 +1,33 @@
-import { Section } from "../../../components/DynamicForm";
+import { Section } from "../../../components/DynamicForm/DynamicForm";
 
 export const sections: Section[] = [
   {
     type: "double",
     fields: [
-      { label: "Nome", id: "nome", type: "text" },
-      { label: "Sobrenome", id: "sobrenome", type: "text" },
+      { label: "Nome", name: "nome", type: "text" },
+      { label: "Sobrenome", name: "sobrenome", type: "text" },
     ],
   },
   {
     type: "single",
-    fields: [{ label: "Email", id: "email", type: "email" }],
+    fields: [{ label: "Email", name: "email", type: "email" }],
   },
   {
     type: "single",
-    fields: [{ label: "Telefone", id: "telefone", type: "tel" }],
+    fields: [{ label: "Telefone", name: "telefone", type: "tel" }],
   },
   {
     type: "double",
     fields: [
-      { label: "CPF", id: "cpf", type: "text" },
-      { label: "Nascimento", id: "nascimento", type: "date" },
+      { label: "CPF", name: "cpf", type: "text" },
+      { label: "Nascimento", name: "nascimento", type: "date" },
     ],
   },
   {
     type: "double",
     fields: [
-      { label: "Endereço", id: "endereco", type: "text" },
-      { label: "CEP", id: "cep", type: "text" },
+      { label: "Endereço", name: "endereco", type: "text" },
+      { label: "CEP", name: "cep", type: "text" },
     ],
   },
 ];

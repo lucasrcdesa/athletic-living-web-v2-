@@ -1,0 +1,38 @@
+/* EditarAtendimento.css - Estilos para a tela de edição de atendimentos */
+
+.editar-atendimento-container {
+  padding: 20px;
+  width: 70%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.editar-atendimento-content {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.editar-atendimento-content h2 {
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .editar-atendimento-container {
+    padding: 10px;
+  }
+  
+  .editar-atendimento-content {
+    padding: 20px;
+  }
+  
+  .editar-atendimento-content h2 {
+    font-size: 20px;
+  }
+} 

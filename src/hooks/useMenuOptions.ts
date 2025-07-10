@@ -1,66 +1,97 @@
-import { useCallback } from "react";
+import { useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface MenuOption {
+export interface MenuOption {
   label: string;
   onClick: () => void;
 }
 
 export const useMenuOptions = () => {
-  const alunosMenu: MenuOption[] = [
+  const navigate = useNavigate();
+  
+  const alunosMenu: MenuOption[] = useMemo(() => [
     {
       label: "Cadastrar Aluno",
-      onClick: () => console.log("Cadastrar Aluno"),
+      onClick: () => navigate("/alunos/cadastrar"),
+    },
+    {
+      label: "Editar Aluno",
+      onClick: () => navigate("/alunos"),
     },
     {
       label: "Financeiro Aluno",
-      onClick: () => console.log("Financeiro Aluno"),
+      onClick: () => navigate("/alunos/financeiro"),
     },
     {
-      label: "Alterar Dados",
-      onClick: () => console.log("Alterar Dados"),
+      label: "Atendimentos",
+      onClick: () => navigate("/atendimentos"),
+    },
+    {
+      label: "Notificações",
+      onClick: () => navigate("/notificacoes/listagem-alunos"),
+    },
+    {
+      label: "Avaliações",
+      onClick: () => navigate("/avaliacoes/listagem-alunos"),
     },
     {
       label: "Periodizações",
-      onClick: () => {},
+      onClick: () => navigate("/periodizacoes"),
     },
-  ];
+  ], [navigate]);
 
-  const colaboradoresMenu: MenuOption[] = [
+  const colaboradoresMenu: MenuOption[] = useMemo(() => [
     {
       label: "Cadastrar Colaborador",
-      onClick: () => console.log("Cadastrar Colaborador"),
+      onClick: () => navigate("/colaboradores/cadastrar"),
     },
     {
-      label: "Ponto Colaborador",
-      onClick: () => console.log("Ponto Colaborador"),
+      label: "Editar Colaborador",
+      onClick: () => navigate("/colaboradores"),
     },
     {
-      label: "Alterar Dados",
-      onClick: () => console.log("Alterar Dados"),
+      label: "Listagem de Pontos",
+      onClick: () => navigate("/colaboradores/ponto"),
     },
-  ];
+    {
+      label: "Notificações",
+      onClick: () => navigate("/notificacoes/listagem-colaboradores"),
+    },
+  ], [navigate]);
 
-  const treinosMenu: MenuOption[] = [
+  const treinosMenu: MenuOption[] = useMemo(() => [
     {
       label: "Cadastrar Treino",
-      onClick: () => console.log("Cadastrar Treino"),
+      onClick: () => navigate("/treinos/cadastrar"),
     },
     {
-      label: "Alterar Treino",
-      onClick: () => console.log("Alterar Treino"),
+      label: "Editar Treino",
+      onClick: () => navigate("/treinos"),
     },
-  ];
+    {
+      label: "Cadastrar Exercício",
+      onClick: () => navigate("/exercicios/cadastrar"),
+    },
+    {
+      label: "Editar Exercício",
+      onClick: () => navigate("/exercicios"),
+    },
+  ], [navigate]);
 
-  const financeiroMenu: MenuOption[] = [
+  const financeiroMenu: MenuOption[] = useMemo(() => [
     {
       label: "Cadastrar Lançamento",
-      onClick: () => console.log("Cadastrar Lançamento"),
+      onClick: () => navigate("/lancamentos"),
     },
     {
-      label: "Alterar Lançamento",
-      onClick: () => console.log("Alterar Lançamento"),
+      label: "Editar Lançamento",
+      onClick: () => navigate("/lancamentos/listagem"),
     },
-  ];
+    {
+      label: "Gerenciar Postagens",
+      onClick: () => navigate("/feeds/listagem"),
+    },
+  ], [navigate]);
 
   const getMenuOptions = useCallback(
     (menuType: string | null): MenuOption[] => {
@@ -77,7 +108,7 @@ export const useMenuOptions = () => {
           return [];
       }
     },
-    []
+    [alunosMenu, colaboradoresMenu, treinosMenu, financeiroMenu]
   );
 
   return {

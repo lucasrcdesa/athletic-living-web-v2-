@@ -1,3 +1,5 @@
+@import './constants/colors.css';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +7,42 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
+  min-height: 100vh;
+}
+
+html {
+  background-color: var(--background);
+  min-height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Classes de texto para status */
+.text-success {
+  color: var(--success);
+  font-weight: 500;
+}
+
+.text-warning {
+  color: var(--warning);
+  font-weight: 500;
+}
+
+.text-danger {
+  color: var(--danger);
+  font-weight: 500;
+}
+
+.text-info {
+  color: var(--info);
+  font-weight: 500;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+  font-weight: 500;
 }

@@ -1,0 +1,190 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./ListagemLancamentos.css";
+import HeaderPages from "../../../components/headerPages/HeaderPages";
+import DataTable from "../../../components/dataTable/DataTable";
+
+// Mock de dados de lançamentos
+const mockLancamentos = [
+  {
+    id: 1,
+    descricao: "Mensalidade João Silva",
+    tipo: "receita",
+    valor: 150.00,
+    data: "2024-02-15",
+    categoria: "Mensalidades",
+    status: "pago",
+    aluno: "João Silva"
+  },
+  {
+    id: 2,
+    descricao: "Compra de Equipamentos",
+    tipo: "despesa",
+    valor: 2500.00,
+    data: "2024-02-14",
+    categoria: "Equipamentos",
+    status: "pendente",
+    fornecedor: "Academia Sports"
+  },
+  {
+    id: 3,
+    descricao: "Mensalidade Maria Santos",
+    tipo: "receita",
+    valor: 180.00,
+    data: "2024-02-13",
+    categoria: "Mensalidades",
+    status: "pago",
+    aluno: "Maria Santos"
+  },
+  {
+    id: 4,
+    descricao: "Pagamento de Energia",
+    tipo: "despesa",
+    valor: 800.00,
+    data: "2024-02-12",
+    categoria: "Contas",
+    status: "pago",
+    fornecedor: "Energia Elétrica"
+  },
+  {
+    id: 5,
+    descricao: "Mensalidade Pedro Oliveira",
+    tipo: "receita",
+    valor: 120.00,
+    data: "2024-02-11",
+    categoria: "Mensalidades",
+    status: "pendente",
+    aluno: "Pedro Oliveira"
+  },
+  {
+    id: 6,
+    descricao: "Manutenção de Equipamentos",
+    tipo: "despesa",
+    valor: 450.00,
+    data: "2024-02-10",
+    categoria: "Manutenção",
+    status: "pago",
+    fornecedor: "Técnico Especializado"
+  }
+];
+
+const ListagemLancamentos = () => {
+  const navigate = useNavigate();
+  const [lancamentos, setLancamentos] = useState(mockLancamentos);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simula carregamento de dados
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  const columns = [
+    { key: "descricao", label: "Descrição", width: "25%", sortable: true },
+    { 
+      key: "tipo", 
+      label: "Tipo", 
+      width: "10%", 
+      sortable: true,
+      render: (value: string) => (
+        <span className={`tipo-badge ${value}`}>
+          {value === 'receita' ? 'Receita' : 'Despesa'}
+        </span>
+      )
+    },
+    { 
+      key: "valor", 
+      label: "Valor", 
+      width: "12%", 
+      sortable: true,
+      render: (value: number) => `R$ ${value.toFixed(2)}`
+    },
+    { 
+      key: "categoria", 
+      label: "Categoria", 
+      width: "15%", 
+      sortable: true 
+    },
+    {
+      key: "data",
+      label: "Data",
+      width: "12%",
+      sortable: true,
+      render: (value: string) => new Date(value).toLocaleDateString('pt-BR')
+    },
+    {
+      key: "status",
+      label: "Status",
+      width: "10%",
+      sortable: true,
+      render: (value: string) => (
+        <span className={`status-badge status-${value}`}>{value}</span>
+      ),
+    },
+    {
+      key: "aluno",
+      label: "Aluno/Fornecedor",
+      width: "16%",
+      sortable: true,
+      render: (value: string, row: any) => row.aluno || row.fornecedor || '-'
+    },
+  ];
+
+  const handleRowClick = (row: any) => {
+    navigate(`/lancamentos/editar/${row.id}`);
+  };
+
+  const handleDeleteClick = (row: any) => {
+    if (window.confirm('Tem certeza que deseja excluir este lançamento?')) {
+      setLancamentos(lancamentos.filter(lancamento => lancamento.id !== row.id));
+    }
+  };
+
+  const handleCloneClick = (row: any) => {
+    const novoId = Math.max(...lancamentos.map(l => l.id)) + 1;
+    const lancamentoClonado = {
+      ...row,
+      id: novoId,
+      descricao: `${row.descricao} (Cópia)`,
+      data: new Date().toISOString().split('T')[0],
+      status: "pendente"
+    };
+    setLancamentos([...lancamentos, lancamentoClonado]);
+    alert('Lançamento clonado com sucesso!');
+  };
+
+  if (loading) {
+    return (
+      <div className="app-container">
+        <HeaderPages title="Listagem de Lançamentos" />
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Carregando lançamentos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="app-container">
+      <HeaderPages title="Listagem de Lançamentos" />
+      
+      <div className="listagem-container">
+        <DataTable
+          title="Lista de Lançamentos"
+          columns={columns}
+          data={lancamentos}
+          onRowClick={handleRowClick}
+          onDeleteClick={handleDeleteClick}
+          onCloneClick={handleCloneClick}
+          showDeleteButton={true}
+          emptyMessage="Nenhum lançamento cadastrado"
+          pageSize={10}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default ListagemLancamentos; 

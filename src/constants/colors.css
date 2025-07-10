@@ -3,6 +3,7 @@
   --blue-dark: #152238;
   --blue-primary: #002c5f;
   --blue-secondary: #0050ab;
+  --blue-light: #e3f2fd;
   --blue-3: #1159ab;
   --blue-4: #006387;
   --blue-5: #009bd4;
@@ -23,4 +24,20 @@
   --border: #d3d3d3;
   --shadow: rgba(0, 0, 0, 0.1);
   --background: #f6f3f6;
+
+  /* Variáveis para compatibilidade com outros módulos */
+  --primary-color: #002c5f;
+  --primary-dark: #0050ab;
+  --secondary-color: #6c757d;
+  --secondary-dark: #545b62;
+  --text-color: #333;
+  --text-secondary: #666;
+  --border-color: #d3d3d3;
+  --background-light: #f5f5f5;
+  --background-secondary: #f8f9fa;
+  --hover-color: #e9ecef;
+  --success-color: #2ecc71;
+  --success-dark: #27ae60;
+  --error-color: #e74c3c;
+  --error-dark: #c0392b;
 }

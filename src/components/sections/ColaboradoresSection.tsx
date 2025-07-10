@@ -1,76 +1,128 @@
-import React from "react";
-import DataTable from "../dataTable";
-import { colaboradoresData } from "../../data/mockData";
-import QuickStats from "../quickStats";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import DataTable from "../dataTable/DataTable";
+import QuickStats from "../quickStats/QuickStats";
+import ColaboradorCadastroService, { Colaborador } from "../../services/colaborador/colaboradorCadastroService";
 
 const ColaboradoresSection: React.FC = () => {
+  const navigate = useNavigate();
+  const { listarColaboradores } = ColaboradorCadastroService();
+  const [colaboradores, setColaboradores] = useState<Colaborador[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchColaboradores = async () => {
+      setLoading(true);
+      try {
+        const colaboradoresData = await listarColaboradores();
+        setColaboradores(colaboradoresData);
+      } catch (error) {
+        console.error('Erro ao buscar colaboradores:', error);
+        setColaboradores([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchColaboradores();
+  }, []);
+
+  // Cálculos para insights
+  const totalColaboradores = colaboradores.length;
+  const colaboradoresComPonto = colaboradores.filter(c => c.ponto).length;
+  const colaboradoresSemPonto = totalColaboradores - colaboradoresComPonto;
+  const totalBonus = colaboradores.reduce((acc, c) => acc + (c.bonus || 0), 0);
+  const mediaBonus = totalColaboradores > 0 ? (totalBonus / totalColaboradores).toFixed(2) : 0;
+  
+  // Contagem por função
+  const funcoes = colaboradores.reduce((acc, c) => {
+    acc[c.funcao] = (acc[c.funcao] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  const funcaoMaisComum = Object.entries(funcoes).sort((a, b) => b[1] - a[1])[0];
+
   const colaboradoresStats = [
     {
       label: "Total de Colaboradores",
-      value: colaboradoresData.length.toString(),
-      icon: "👨‍💼",
+      value: totalColaboradores.toString(),
+      icon: "👥",
       color: "#002c5f",
     },
     {
-      label: "Colaboradores Ativos",
-      value: colaboradoresData
-        .filter((c) => c.status === "ativo")
-        .length.toString(),
-      icon: "✅",
+      label: "Com Ponto",
+      value: `${colaboradoresComPonto} (${totalColaboradores > 0 ? ((colaboradoresComPonto / totalColaboradores) * 100).toFixed(1) : 0}%)`,
+      icon: "⏰",
       color: "#2ecc71",
     },
     {
-      label: "Personal Trainers",
-      value: colaboradoresData
-        .filter((c) => c.cargo === "Personal Trainer")
-        .length.toString(),
-      icon: "💪",
-      color: "#d36d00",
+      label: "Média de Bônus",
+      value: `R$ ${mediaBonus}`,
+      icon: "💰",
+      color: "#f39c12",
     },
     {
-      label: "Folha Salarial",
-      value: "R$ 16.500",
-      icon: "💰",
-      color: "#5e3c00",
+      label: "Função Mais Comum",
+      value: funcaoMaisComum ? `${funcaoMaisComum[0]} (${funcaoMaisComum[1]})` : "N/A",
+      icon: "🎯",
+      color: "#9b59b6",
     },
   ];
 
   const columns = [
-    { key: "nome", label: "Nome", width: "20%", sortable: true },
-    { key: "cargo", label: "Cargo", width: "15%", sortable: true },
-    { key: "email", label: "Email", width: "25%", sortable: true },
-    { key: "telefone", label: "Telefone", width: "15%", sortable: false },
+    { key: "nome", label: "Nome", width: "25%", sortable: true },
+    { key: "mail", label: "Email", width: "25%", sortable: true },
+    { key: "cpf", label: "CPF", width: "15%", sortable: false },
+    { key: "funcao", label: "Função", width: "15%", sortable: true },
     {
-      key: "status",
-      label: "Status",
+      key: "ponto",
+      label: "Ponto",
       width: "10%",
       sortable: true,
-      render: (value: string) => (
-        <span className={`status-badge status-${value}`}>{value}</span>
+      render: (value: boolean) => (
+        <span className={`status-badge ${value ? 'status-ativo' : 'status-inativo'}`}>
+          {value ? 'Sim' : 'Não'}
+        </span>
       ),
     },
-    { key: "salario", label: "Salário", width: "15%", sortable: true },
+    {
+      key: "bonus",
+      label: "Bônus",
+      width: "10%",
+      sortable: true,
+      render: (value: number) => (
+        <span className="text-success">
+          R$ {value?.toFixed(2) || '0.00'}
+        </span>
+      ),
+    },
   ];
 
-  const handleRowClick = (row: any) => {
-    console.log("Colaborador selecionado:", row);
-    // Aqui você pode abrir um modal ou navegar para detalhes do colaborador
+  const handleRowClick = (row: Colaborador) => {
+    navigate(`/colaboradores/editar/${row.id}`);
   };
+
+  if (loading) {
+    return (
+      <div className="section-content">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Carregando dados dos colaboradores...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="section-content">
-      <QuickStats
-        stats={colaboradoresStats}
-        title="Estatísticas dos Colaboradores"
-      />
+      <QuickStats stats={colaboradoresStats} title="Insights dos Colaboradores" />
 
       <DataTable
         title="Lista de Colaboradores"
         columns={columns}
-        data={colaboradoresData}
+        data={colaboradores}
         onRowClick={handleRowClick}
         emptyMessage="Nenhum colaborador cadastrado"
-        pageSize={5}
+        pageSize={10}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css";
+import "./FadeTransition.css";
 
 interface FadeTransitionProps {
   children: React.ReactNode;

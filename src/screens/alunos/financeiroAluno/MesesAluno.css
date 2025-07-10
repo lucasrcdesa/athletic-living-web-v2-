@@ -1,0 +1,236 @@
+.app-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.meses-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aluno-info {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.aluno-info h2 {
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.aluno-info p {
+  margin: 8px 0;
+  color: #666;
+}
+
+.resumo-financeiro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.resumo-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.resumo-card h3 {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.resumo-card p {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.valor-positivo {
+  color: #28a745;
+}
+
+.valor-negativo {
+  color: #dc3545;
+}
+
+.acoes-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.btn-adicionar-fechamento {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-adicionar-fechamento:hover {
+  background: #0056b3;
+}
+
+.meses-lista {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.meses-lista h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+.meses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.mes-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  transition: all 0.3s;
+}
+
+.mes-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.mes-card.pago {
+  border-left: 4px solid #28a745;
+  background-color: #f8fff9;
+}
+
+.mes-card.pendente {
+  border-left: 4px solid #ffc107;
+  background-color: #fffef7;
+}
+
+.mes-card.atrasado {
+  border-left: 4px solid #dc3545;
+  background-color: #fff8f8;
+}
+
+.mes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mes-header h4 {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.mes-detalhes p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-pago {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-pendente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-atrasado {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  gap: 20px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  gap: 20px;
+}
+
+.error-container p {
+  color: #dc3545;
+  font-size: 16px;
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .meses-container {
+    padding: 10px;
+  }
+  
+  .resumo-financeiro {
+    grid-template-columns: 1fr;
+  }
+  
+  .meses-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mes-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+} 

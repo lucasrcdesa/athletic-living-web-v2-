@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Configuração base do axios para o backend Spring Boot
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = 'http://athleticlivingback-production-38d9.up.railway.app';
 
 // Configurar headers padrão
 axios.defaults.headers.common['Content-Type'] = 'application/json';

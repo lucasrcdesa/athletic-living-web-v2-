@@ -2,7 +2,7 @@
   "name": "athletic-living-web",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://athleticlivingback-production-38d9.up.railway.app",
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",
     "@testing-library/dom": "^10.4.0",

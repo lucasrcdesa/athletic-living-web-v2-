@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // Configuração base do axios para o backend Spring Boot
 // URL do backend no Railway (mesma para dev e prod)
+// FORÇANDO NOVO DEPLOY - Vercel cache reset
 const baseURL = 'https://athleticlivingback-production-38d9.up.railway.app';
 
 axios.defaults.baseURL = baseURL;

@@ -112,7 +112,8 @@ const ListagemNotificacoesAluno = () => {
   };
 
   const handleAddClick = () => {
-    navigate(`/notificacoes/aluno/${id}/adicionar`);
+    // Navegar para a nova tela unificada de cadastro de notificações
+    navigate('/notificacoes/cadastrar/aluno');
   };
 
   if (loading) {

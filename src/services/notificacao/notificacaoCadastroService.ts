@@ -31,6 +31,8 @@ export interface NotificacaoUpdateDTO {
 const NotificacaoCadastroService = () => {
     const cadastrarNotificacao = async (notificacao: NotificacaoFormData): Promise<Notificacao | null> => {
         try {
+            console.log('Dados enviados para o backend:', notificacao);
+            
             const response = await axios.post<Notificacao>('/notificacoes', notificacao, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,9 +40,14 @@ const NotificacaoCadastroService = () => {
                 timeout: 10000,
             });
             
+            console.log('Resposta do backend:', response.data);
             return response.data;
-        } catch (error) {
+        } catch (error: any) {
             console.error('Erro ao cadastrar notificação:', error);
+            if (error.response) {
+                console.error('Detalhes do erro:', error.response.data);
+                console.error('Status do erro:', error.response.status);
+            }
             return null;
         }
     };

@@ -10,6 +10,7 @@ import CadastrarTreino from "../screens/treinos/cadastroTreino/CadastrarTreino";
 import CadastrarAtendimento from "../screens/atendimentos/cadastroAtendimento/CadastrarAtendimento";
 import CadastrarNotificacaoAluno from "../screens/notificacoes/cadastroNotificacaoAluno/CadastrarNotificacaoAluno";
 import CadastrarNotificacaoColaborador from "../screens/notificacoes/cadastroNotificacaoColaborador/CadastrarNotificacaoColaborador";
+import CadastrarNotificacao from "../screens/notificacoes/cadastroNotificacao/CadastrarNotificacao";
 import CadastrarAvaliacao from "../screens/avaliacoes/cadastroAvaliacao/CadastrarAvaliacao";
 import CadastrarFeed from "../screens/feeds/cadastroFeed/CadastrarFeed";
 import CadastrarLancamento from "../screens/financeiro/cadastroLancamento/CadastrarLancamento";
@@ -103,6 +104,8 @@ const AppRoutes = () => {
         <Route path="/atendimentos/editar/:id" element={<EditarAtendimento />} />
         
         {/* Rotas de Notificações */}
+        <Route path="/notificacoes/cadastrar" element={<CadastrarNotificacao />} />
+        <Route path="/notificacoes/cadastrar/:tipo" element={<CadastrarNotificacao />} />
         <Route path="/notificacoes/alunos" element={<CadastrarNotificacaoAluno />} />
         <Route path="/notificacoes/colaboradores" element={<CadastrarNotificacaoColaborador />} />
         <Route path="/notificacoes/listagem-alunos" element={<ListagemAlunosNotificacao />} />

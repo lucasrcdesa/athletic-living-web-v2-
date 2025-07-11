@@ -113,8 +113,16 @@ const ListagemColaboradoresNotificacao = () => {
       
       <div className="listagem-container">
         <div className="table-header">
-          <h2>Colaboradores</h2>
-          <p>Selecione um colaborador para ver suas notificações</p>
+          <div>
+            <h2>Colaboradores</h2>
+            <p>Selecione um colaborador para ver suas notificações</p>
+          </div>
+          <button 
+            className="btn-adicionar"
+            onClick={() => navigate('/notificacoes/cadastrar')}
+          >
+            + Adicionar Notificação
+          </button>
         </div>
         
         <DataTable

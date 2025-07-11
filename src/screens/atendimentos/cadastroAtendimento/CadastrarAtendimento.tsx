@@ -1,27 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CadastrarAtendimento.css";
 import HeaderPages from "../../../components/headerPages/HeaderPages";
 import DynamicForm from "../../../components/DynamicForm/DynamicForm";
+import SelectableList, { SelectableItem } from "../../../components/selectableList/SelectableList";
 import { sections } from "../../../data/sections/atendimentos/cadastrarAtendimentoMock";
 import { AtendimentoFormData } from "../../../services/atendimento/atendimentoCadastroService";
 import AtendimentoCadastroService from "../../../services/atendimento/atendimentoCadastroService";
+import AlunoCadastroService from "../../../services/aluno/alunoCadastroService";
+import ColaboradorCadastroService from "../../../services/colaborador/colaboradorCadastroService";
 
 const CadastrarAtendimento = () => {
   const navigate = useNavigate();
   const { cadastrarAtendimento } = AtendimentoCadastroService();
+  const { listarAlunos } = AlunoCadastroService();
+  const { listarColaboradores } = ColaboradorCadastroService();
+  
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [formData, setFormData] = useState<Record<string, any>>({});
+  
+  // Estados para SelectableList
+  const [alunos, setAlunos] = useState<SelectableItem[]>([]);
+  const [colaboradores, setColaboradores] = useState<SelectableItem[]>([]);
+  const [alunosSelecionados, setAlunosSelecionados] = useState<number[]>([]);
+  const [colaboradoresSelecionados, setColaboradoresSelecionados] = useState<number[]>([]);
+  const [carregandoDados, setCarregandoDados] = useState(true);
+
+  // Carregar dados para os SelectableList
+  useEffect(() => {
+    const carregarDados = async () => {
+      try {
+        // Carregar alunos
+        const alunosData = await listarAlunos();
+        const alunosSelectable = alunosData.map(aluno => ({
+          id: aluno.id,
+          title: aluno.nome,
+          subtitle: aluno.email,
+          description: `Telefone: ${aluno.telefone}`
+        }));
+        setAlunos(alunosSelectable);
+
+        // Carregar colaboradores
+        const colaboradoresData = await listarColaboradores();
+        const colaboradoresSelectable = colaboradoresData.map(colaborador => ({
+          id: colaborador.id,
+          title: colaborador.nome,
+          subtitle: colaborador.mail,
+          description: `Função: ${colaborador.funcao}`
+        }));
+        setColaboradores(colaboradoresSelectable);
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        setMessage({
+          type: 'error',
+          text: 'Erro ao carregar dados. Tente novamente.'
+        });
+      } finally {
+        setCarregandoDados(false);
+      }
+    };
+
+    carregarDados();
+  }, []);
 
   const formatarDados = (formData: Record<string, any>): AtendimentoFormData => {
     return {
       dataHora: formData.dataHora || new Date().toISOString().slice(0, 16),
       tipo: formData.tipo || '',
       observacoes: formData.observacoes.trim(),
-      alunosIds: [],
-      colaboradoresIds: [],
+      alunosIds: alunosSelecionados,
+      colaboradoresIds: colaboradoresSelecionados,
     };
+  };
+
+  const handleAlunosChange = (selectedIds: number[]) => {
+    setAlunosSelecionados(selectedIds);
+  };
+
+  const handleColaboradoresChange = (selectedIds: number[]) => {
+    setColaboradoresSelecionados(selectedIds);
   };
 
   const handleSubmit = async (formData: Record<string, any>) => {
@@ -43,9 +101,11 @@ const CadastrarAtendimento = () => {
       if (resultado) {
         setMessage({
           type: 'success',
-          text: 'Atendimento cadastrado com sucesso! Agora você pode adicionar alunos e colaboradores.'
+          text: 'Atendimento cadastrado com sucesso!'
         });
-        setTimeout(() => setMessage(null), 3000);
+        setTimeout(() => {
+          navigate('/atendimentos');
+        }, 2000);
       } else {
         setMessage({
           type: 'error',
@@ -60,16 +120,6 @@ const CadastrarAtendimento = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSelecionarAlunos = () => {
-    // Navegar para tela de seleção de alunos
-    navigate('/selecionar-alunos-atendimento', { state: { atendimentoId: formData.id } });
-  };
-
-  const handleSelecionarColaboradores = () => {
-    // Navegar para tela de seleção de colaboradores
-    navigate('/selecionar-colaboradores-atendimento', { state: { atendimentoId: formData.id } });
   };
 
   return (
@@ -90,23 +140,39 @@ const CadastrarAtendimento = () => {
         disabled={loading}
       />
 
-      <div className="selection-buttons">
-        <button 
-          className="selection-button"
-          onClick={handleSelecionarAlunos}
-          disabled={loading}
-        >
-          Selecionar Alunos
-        </button>
-        
-        <button 
-          className="selection-button"
-          onClick={handleSelecionarColaboradores}
-          disabled={loading}
-        >
-          Selecionar Colaboradores
-        </button>
-      </div>
+      {!carregandoDados && (
+        <div className="actions-section">
+          <div className="action-group">
+            <h3>Alunos do Atendimento</h3>
+            <p className="current-info">
+              Selecione os alunos que participarão deste atendimento
+            </p>
+            
+            <SelectableList
+              items={alunos}
+              selectedItems={alunosSelecionados}
+              onSelectionChange={handleAlunosChange}
+              maxSelections={50}
+              emptyMessage="Nenhum aluno disponível"
+            />
+          </div>
+
+          <div className="action-group">
+            <h3>Colaboradores do Atendimento</h3>
+            <p className="current-info">
+              Selecione os colaboradores responsáveis por este atendimento
+            </p>
+            
+            <SelectableList
+              items={colaboradores}
+              selectedItems={colaboradoresSelecionados}
+              onSelectionChange={handleColaboradoresChange}
+              maxSelections={20}
+              emptyMessage="Nenhum colaborador disponível"
+            />
+          </div>
+        </div>
+      )}
       
       {loading && (
         <div className="loading-overlay">

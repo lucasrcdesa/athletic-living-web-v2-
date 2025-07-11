@@ -112,7 +112,8 @@ const ListagemNotificacoesColaborador = () => {
   };
 
   const handleAddClick = () => {
-    navigate(`/notificacoes/colaborador/${id}/adicionar`);
+    // Navegar para a nova tela unificada de cadastro de notificações
+    navigate('/notificacoes/cadastrar/colaborador');
   };
 
   if (loading) {

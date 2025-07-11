@@ -29,6 +29,40 @@
   border: 2px solid #e74c3c;
 }
 
+/* Estilos para a seção de ações */
+.actions-section {
+  padding: 20px;
+  width: 70%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.action-group {
+  background: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-group h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.current-info {
+  margin: 0 0 20px 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .selection-buttons {
   display: flex;
   justify-content: center;
@@ -98,6 +132,12 @@
 }
 
 /* Responsividade */
+@media (max-width: 1200px) {
+  .actions-section {
+    width: 80%;
+  }
+}
+
 @media (max-width: 768px) {
   .app-container {
     padding: 16px;
@@ -111,5 +151,25 @@
   .selection-button {
     width: 100%;
     max-width: 300px;
+  }
+  
+  .actions-section {
+    width: 90%;
+    gap: 20px;
+  }
+  
+  .action-group {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions-section {
+    width: 95%;
+    padding: 10px;
+  }
+  
+  .action-group {
+    padding: 15px;
   }
 } 

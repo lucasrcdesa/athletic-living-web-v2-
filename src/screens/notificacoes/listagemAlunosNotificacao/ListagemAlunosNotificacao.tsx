@@ -40,10 +40,7 @@ const ListagemAlunosNotificacao = () => {
   };
 
   const handleAddClick = () => {
-    // Por enquanto, navega para o primeiro aluno se existir
-    if (alunos.length > 0) {
-      navigate(`/notificacoes/aluno/${alunos[0].id}`);
-    }
+    navigate('/notificacoes/cadastrar');
   };
 
   if (loading) {

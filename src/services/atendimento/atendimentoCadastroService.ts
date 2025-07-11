@@ -36,9 +36,28 @@ const AtendimentoCadastroService = () => {
     const { listarAlunos, buscarAlunoPorId } = AlunoCadastroService();
     const { listarColaboradores, buscarColaboradorPorId } = ColaboradorCadastroService();
 
+    // Função para converter data para o formato que o backend espera
+    const converterDataParaBackend = (data: string): string => {
+        if (!data) return new Date().toISOString();
+        
+        // Se já está no formato ISO, retorna como está
+        if (data.includes('T')) return data;
+        
+        // Converte formato YYYY-MM-DD para ISO
+        return `${data}T00:00:00.000Z`;
+    };
+
     const cadastrarAtendimento = async (atendimento: AtendimentoFormData): Promise<Atendimento | null> => {
         try {
-            const response = await axios.post<Atendimento>('/atendimentos', atendimento, {
+            // Converter dados para o formato que o backend espera
+            const dadosBackend = {
+                ...atendimento,
+                dataHora: converterDataParaBackend(atendimento.dataHora)
+            };
+
+            console.log('Dados enviados para o backend:', dadosBackend);
+
+            const response = await axios.post<Atendimento>('/atendimentos', dadosBackend, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -78,7 +97,13 @@ const AtendimentoCadastroService = () => {
 
     const alterarAtendimento = async (id: number, dados: AtendimentoUpdateDTO): Promise<Atendimento | null> => {
         try {
-            const response = await axios.patch<Atendimento>(`/atendimentos/${id}`, dados, {
+            // Converter dados para o formato que o backend espera
+            const dadosBackend = { ...dados };
+            if (dados.dataHora) {
+                dadosBackend.dataHora = converterDataParaBackend(dados.dataHora);
+            }
+
+            const response = await axios.patch<Atendimento>(`/atendimentos/${id}`, dadosBackend, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

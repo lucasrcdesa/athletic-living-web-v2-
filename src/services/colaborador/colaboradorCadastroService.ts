@@ -27,7 +27,7 @@ export interface AtualizarColaboradorDTO {
 const ColaboradorCadastroService = () => {
     const cadastrarColaborador = async (colaborador: ColaboradorFormData): Promise<Colaborador | null> => {
         try {
-            const response = await axios.post<Colaborador>('/colaboradores', colaborador, {
+            const response = await axios.post<Colaborador>('/colaborador', colaborador, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -44,7 +44,7 @@ const ColaboradorCadastroService = () => {
     // Método para listar colaboradores
     const listarColaboradores = async (): Promise<Colaborador[]> => {
         try {
-            const response = await axios.get<Colaborador[]>('/colaboradores', {
+            const response = await axios.get<Colaborador[]>('/colaborador', {
                 timeout: 10000,
             });
             return response.data;
@@ -57,7 +57,7 @@ const ColaboradorCadastroService = () => {
     // Método para buscar colaborador por ID
     const buscarColaboradorPorId = async (id: number): Promise<Colaborador | null> => {
         try {
-            const response = await axios.get<Colaborador>(`/colaboradores/${id}`, {
+            const response = await axios.get<Colaborador>(`/colaborador/${id}`, {
                 timeout: 10000,
             });
             return response.data;
@@ -70,7 +70,7 @@ const ColaboradorCadastroService = () => {
     // Método para deletar colaborador
     const deletarColaborador = async (id: number): Promise<boolean> => {
         try {
-            await axios.delete(`/colaboradores/${id}`, {
+            await axios.delete(`/colaborador/${id}`, {
                 timeout: 10000,
             });
             return true;
@@ -83,7 +83,7 @@ const ColaboradorCadastroService = () => {
     // Método para alterar colaborador (apenas campos permitidos)
     const alterarColaborador = async (id: number, dadosAtualizacao: AtualizarColaboradorDTO): Promise<Colaborador | null> => {
         try {
-            const response = await axios.patch<Colaborador>(`/colaboradores/${id}`, dadosAtualizacao, {
+            const response = await axios.patch<Colaborador>(`/colaborador/${id}`, dadosAtualizacao, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

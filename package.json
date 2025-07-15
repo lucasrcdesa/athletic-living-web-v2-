@@ -2,7 +2,6 @@
   "name": "athletic-living-web",
   "version": "0.1.0",
   "private": true,
-  "proxy": "",
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",
     "@testing-library/dom": "^10.4.0",
